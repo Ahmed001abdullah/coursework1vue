@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <link rel="stylesheet" href="stylesheet.css">
     <script src="subjects.js"></script>
-    <title>Web Academy</title>
+    <title>After School Courses</title>
 </head>
 
 <body>
@@ -35,25 +35,25 @@
         </header>
         <main class="display-flex-col width-height">
             <section id="course_page" class="display-flex-col width-height" v-if="can_showcourses">
-                <h2>courses page</h2>
+                <h2>Courses page</h2>
                 <div id="container" class="display-flex-row width-height">
                     <div id="filters" class="display-flex-col">
                         <h3>Sort By</h3>
                         <div id="sort_by">
                             <div class="radio_container">
-                                <input name="sort_radio" type="radio" v-on:click="changeCriteria('lesson')">
-                                <label for="sort_radio">course</label>
+                                <input name="sort_radio" type="radio" v-on:click="changesorting('lesson')">
+                                <label for="sort_radio">Course</label>
                             </div>
                             <div class="radio_container">
-                                <input name="sort_radio" type="radio" v-on:click="changeCriteria('location')">
+                                <input name="sort_radio" type="radio" v-on:click="changesorting('location')">
                                 <label for="sort_radio">Location</label>
                             </div>
                             <div class="radio_container">
-                                <input name="sort_radio" type="radio" v-on:click="changeCriteria('price')">
+                                <input name="sort_radio" type="radio" v-on:click="changesorting('price')">
                                 <label for="sort_radio">Price</label>
                             </div>
                             <div class="radio_container">
-                                <input name="sort_radio" type="radio" v-on:click="changeCriteria('availability')">
+                                <input name="sort_radio" type="radio" v-on:click="changesorting('availability')">
                                 <label for="sort_radio">Availability</label>
                             </div>
                         </div>
@@ -138,8 +138,8 @@
 
         el: "#app",
         data: {
-            sitename: "Web Academy",
-            criteria: "lesson",
+            sitename: "After School Courses",
+            sorting: "lesson",
             order: "ascending",
             searchInput: "",
             showcourses: true,
@@ -230,8 +230,8 @@
             checkout() {
                 this.showcourses = this.showcourses ? false : true
             },
-            changeCriteria(criteria) {
-                this.criteria = criteria
+            changesorting(sorting) {
+                this.sorting = sorting
             },
             changeOrder(order) {
                 this.order = order
@@ -267,23 +267,23 @@
 
                 const exclude = ["all", "availability", "price"]
                     // const exclude =   { lesson: "asfaf", location: 'asfsfg', price: "asfas", spaces: 8 }
-                if (!exclude.includes(this.criteria)) {
-                    return this.courses.filter(x => x[this.criteria].toLowerCase().includes(this.searchInput.toLowerCase())).sort((a, b) => {
+                if (!exclude.includes(this.sorting)) {
+                    return this.courses.filter(x => x[this.sorting].toLowerCase().includes(this.searchInput.toLowerCase())).sort((a, b) => {
                         switch (this.order) {
                             case "ascending":
-                                if (a[this.criteria] > b[this.criteria]) {
+                                if (a[this.sorting] > b[this.sorting]) {
                                     return 1
                                 }
-                                if (b[this.criteria] > a[this.criteria]) {
+                                if (b[this.sorting] > a[this.sorting]) {
                                     return -1
                                 }
                                 return 0
                                 break;
                             case "descending":
-                                if (a[this.criteria] > b[this.criteria]) {
+                                if (a[this.sorting] > b[this.sorting]) {
                                     return -1
                                 }
-                                if (b[this.criteria] > a[this.criteria]) {
+                                if (b[this.sorting] > a[this.sorting]) {
                                     return 1
                                 }
                                 return 0
@@ -291,26 +291,26 @@
                         }
                     })
                 }
-                if (this.criteria == "availability") {
+                if (this.sorting == "availability") {
                     return this.courses.filter(x => x["spaces"] > 0)
                 }
-                if (this.criteria == "price") {
+                if (this.sorting == "price") {
                     return this.courses.filter(x => (x["price"] + "").includes(this.searchInput.toLowerCase())).sort((a, b) => {
                         switch (this.order) {
                             case "ascending":
-                                if (a[this.criteria] > b[this.criteria]) {
+                                if (a[this.sorting] > b[this.sorting]) {
                                     return 1
                                 }
-                                if (b[this.criteria] > a[this.criteria]) {
+                                if (b[this.sorting] > a[this.sorting]) {
                                     return -1
                                 }
                                 return 0
                                 break;
                             case "descending":
-                                if (a[this.criteria] > b[this.criteria]) {
+                                if (a[this.sorting] > b[this.sorting]) {
                                     return -1
                                 }
-                                if (b[this.criteria] > a[this.criteria]) {
+                                if (b[this.sorting] > a[this.sorting]) {
                                     return 1
                                 }
                                 return 0
