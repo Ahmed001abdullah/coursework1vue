@@ -1,1 +1,1 @@
-# coursework1vue
+# Vueindividualcourse
