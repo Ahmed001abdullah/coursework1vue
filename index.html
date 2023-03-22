@@ -105,6 +105,10 @@
                                 <input type="text" v-model.trim="userData.name">
                             </div>
                             <div class="input_container">
+                                <label for="address">Address: </label>
+                                <input type="text" v-model.trim="userData.address">
+                            </div>
+                            <div class="input_container">
                                 <label for="phone" pattern="[A-Za-z]">Phone: </label>
                                 <input type="text" v-model.trim="userData.phone">
                             </div>
@@ -146,6 +150,7 @@
             x: [...courses],
             userData: {
                 name: "",
+                address:"",
                 phone: "",
             },
             courses: [{
@@ -252,6 +257,9 @@
                 const numbers = /^[0-9]+$/;
                 let valid = true
                 if (this.userData.name.match(letters) == null) {
+                    valid = false
+                }
+                if (this.userData.address.match(letters) == null) {
                     valid = false
                 }
                 if (this.userData.phone.match(numbers) == null) {
