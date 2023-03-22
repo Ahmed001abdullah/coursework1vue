@@ -15,7 +15,7 @@
     <div id="app" class="display-flex-col width-height">
         <header class="display-flex-row">
             <h1>{{sitename}}</h1>
-            <div v-if="can_showSubjects">
+            <div v-if="can_showcourses">
                 <button v-if="canRemoveFromCart" v-on:click="checkout">
                     {{cartItemCount}}
                     <i class="bx bx-cart"></i>
@@ -34,15 +34,15 @@
             </div>
         </header>
         <main class="display-flex-col width-height">
-            <section id="subject_page" class="display-flex-col width-height" v-if="can_showSubjects">
-                <h2>Subjects page</h2>
+            <section id="course_page" class="display-flex-col width-height" v-if="can_showcourses">
+                <h2>courses page</h2>
                 <div id="container" class="display-flex-row width-height">
                     <div id="filters" class="display-flex-col">
                         <h3>Sort By</h3>
                         <div id="sort_by">
                             <div class="radio_container">
                                 <input name="sort_radio" type="radio" v-on:click="changeCriteria('lesson')">
-                                <label for="sort_radio">Subject</label>
+                                <label for="sort_radio">course</label>
                             </div>
                             <div class="radio_container">
                                 <input name="sort_radio" type="radio" v-on:click="changeCriteria('location')">
@@ -68,25 +68,25 @@
                             </div>
                         </div>
                     </div>
-                    <div id="subjects_container" class="display-flex-col width-height">
+                    <div id="courses_container" class="display-flex-col width-height">
                         <div id="search">
                             <label for="search">Search: </label>
                             <input name="search" type="text" v-model.trim="searchInput">
                         </div>
-                        <div id="subjects">
-                            <div class="subject" v-for="subject in filterItems">
+                        <div id="courses">
+                            <div class="course" v-for="course in filterItems">
                                 <div style="width: 100%; display: inline-flex; align-items: center;">
                                     <div class="info_container">
-                                        <p>Subject: {{subject.lesson}}</p>
-                                        <p>Location: {{subject.location}}</p>
-                                        <p>Price: £{{subject.price}}</p>
-                                        <p>Spaces: {{subject.spaces}}</p>
+                                        <p>course: {{course.lesson}}</p>
+                                        <p>Location: {{course.location}}</p>
+                                        <p>Price: £{{course.price}}</p>
+                                        <p>Spaces: {{course.spaces}}</p>
                                     </div>
                                     <figure>
-                                        <img class="image" v-bind:src="subject.image">
+                                        <img class="image" v-bind:src="course.image">
                                     </figure>
                                 </div>
-                                <button v-if="subject.spaces > 0" v-on:click="addToCart(subject)">Add To Cart</button>
+                                <button v-if="course.spaces > 0" v-on:click="addToCart(course)">Add To Cart</button>
                                 <button v-else disabled>Add To Cart</button>
                             </div>
                         </div>
@@ -111,20 +111,20 @@
                             <button v-if="canCheckout">Checkout</button>
                         </div>
                     </div>
-                    <div id="subjects_container" class="display-flex-col width-height">
-                        <div id="subjects">
-                            <div class="subject" v-for="subject in cart">
+                    <div id="courses_container" class="display-flex-col width-height">
+                        <div id="courses">
+                            <div class="course" v-for="course in cart">
                                 <div style="width: 100%; display: inline-flex; align-items: center;">
                                     <div class="info_container">
-                                        <p>Subject: {{subject.lesson}}</p>
-                                        <p>Location: {{subject.location}}</p>
-                                        <p>Price: £{{subject.price}}</p>
+                                        <p>course: {{course.lesson}}</p>
+                                        <p>Location: {{course.location}}</p>
+                                        <p>Price: £{{course.price}}</p>
                                     </div>
                                     <figure>
-                                        <img class="image" v-bind:src="subject.image">
+                                        <img class="image" v-bind:src="course.image">
                                     </figure>
                                 </div>
-                                <button v-on:click="removeFromCart(subject)">Remove From Cart</button>
+                                <button v-on:click="removeFromCart(course)">Remove From Cart</button>
                             </div>
                         </div>
                     </div>
@@ -142,13 +142,13 @@
             criteria: "lesson",
             order: "ascending",
             searchInput: "",
-            showSubjects: true,
-            x: [...subjects],
+            showcourses: true,
+            x: [...courses],
             userData: {
                 name: "",
                 phone: "",
             },
-            subjects: [{
+            courses: [{
 
                 lesson: "Art",
                 location: 'sweden',
@@ -212,14 +212,14 @@
                 image: "img/robot.png"
 
             }, ],
-            subject: this.subject,
+            course: this.course,
             cart: [],
 
         },
         methods: {
-            addToCart(subject) {
-                subject.spaces--
-                    this.cart.push(subject)
+            addToCart(course) {
+                course.spaces--
+                    this.cart.push(course)
             },
             removeFromCart(cart_item) {
                 cart_item.spaces++
@@ -228,7 +228,7 @@
 
             },
             checkout() {
-                this.showSubjects = this.showSubjects ? false : true
+                this.showcourses = this.showcourses ? false : true
             },
             changeCriteria(criteria) {
                 this.criteria = criteria
@@ -238,8 +238,8 @@
             }
         },
         computed: {
-            can_showSubjects() {
-                return this.showSubjects
+            can_showcourses() {
+                return this.showcourses
             },
             cartItemCount() {
                 return this.cart.length || "Empty";
@@ -268,7 +268,7 @@
                 const exclude = ["all", "availability", "price"]
                     // const exclude =   { lesson: "asfaf", location: 'asfsfg', price: "asfas", spaces: 8 }
                 if (!exclude.includes(this.criteria)) {
-                    return this.subjects.filter(x => x[this.criteria].toLowerCase().includes(this.searchInput.toLowerCase())).sort((a, b) => {
+                    return this.courses.filter(x => x[this.criteria].toLowerCase().includes(this.searchInput.toLowerCase())).sort((a, b) => {
                         switch (this.order) {
                             case "ascending":
                                 if (a[this.criteria] > b[this.criteria]) {
@@ -292,10 +292,10 @@
                     })
                 }
                 if (this.criteria == "availability") {
-                    return this.subjects.filter(x => x["spaces"] > 0)
+                    return this.courses.filter(x => x["spaces"] > 0)
                 }
                 if (this.criteria == "price") {
-                    return this.subjects.filter(x => (x["price"] + "").includes(this.searchInput.toLowerCase())).sort((a, b) => {
+                    return this.courses.filter(x => (x["price"] + "").includes(this.searchInput.toLowerCase())).sort((a, b) => {
                         switch (this.order) {
                             case "ascending":
                                 if (a[this.criteria] > b[this.criteria]) {

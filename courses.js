@@ -1,4 +1,4 @@
-let subjects = [{
+let courses = [{
 
     'lesson': "Art",
     'location': 'sweden',
