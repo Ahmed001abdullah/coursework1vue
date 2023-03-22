@@ -5,44 +5,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cerulean/bootstrap.min.css" integrity="sha384-3fdgwJw17Bi87e1QQ4fsLn4rUFqWw//KU0g8TvV6quvahISRewev6/EocKNuJmEw" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <link rel="stylesheet" href="stylesheet.css">
-    <script src="subjects.js"></script>
+    <script src="course.js"></script>
     <title>After School Courses</title>
 </head>
 
 <body>
-    <div id="app" class="display-flex-col width-height">
-        <header class="display-flex-row">
-            <h1>{{sitename}}</h1>
+    <div id="app" class="">
+        <div class="container-fluid bgchange ">
+        <div class="row">
+           <div class="col-md-10">
+            <h1 class="text-white">{{sitename}}</h1>
+        </div>
+        <div class="col-md-2">
             <div v-if="can_showcourses">
-                <button v-if="canRemoveFromCart" v-on:click="checkout">
+                <button v-if="canRemoveFromCart" class="btn btn-lg btn-dark" v-on:click="checkout">
                     {{cartItemCount}}
                     <i class="bx bx-cart"></i>
                     Checkout
                 </button>
-                <button disabled="disabled" v-else>
+                <button disabled="disabled" class="btn btn-lg btn-dark" v-else>
                     {{cartItemCount}}
                     <i class="bx bx-cart"></i>
                 </button>
             </div>
             <div v-else>
-                <button v-on:click="checkout">
+                <button v-on:click="checkout" class="btn btn-lg btn-dark">
                     <i class='bx bx-left-arrow-alt'></i>
                     Go back
                 </button>
             </div>
-        </header>
+        </div>
+   </div>
+    </div>
         <main class="display-flex-col width-height">
             <section id="course_page" class="display-flex-col width-height" v-if="can_showcourses">
-                <h2>Courses page</h2>
+                <h2 class="text-dark">Courses page</h2>
                 <div id="container" class="display-flex-row width-height">
                     <div id="filters" class="display-flex-col">
-                        <h3>Sort By</h3>
+                        <h3 class="text-dark">Sort By</h3>
                         <div id="sort_by">
                             <div class="radio_container">
                                 <input name="sort_radio" type="radio" v-on:click="changesorting('lesson')">
-                                <label for="sort_radio">Course</label>
+                                <label for="sort_radio">Subject</label>
                             </div>
                             <div class="radio_container">
                                 <input name="sort_radio" type="radio" v-on:click="changesorting('location')">
@@ -73,11 +80,11 @@
                             <label for="search">Search: </label>
                             <input name="search" type="text" v-model.trim="searchInput">
                         </div>
-                        <div id="courses">
-                            <div class="course" v-for="course in filterItems">
+                        <div id="courses" class="mt-2">
+                            <div class="course mt-2 p-2" v-for="course in filterItems">
                                 <div style="width: 100%; display: inline-flex; align-items: center;">
                                     <div class="info_container">
-                                        <p>course: {{course.lesson}}</p>
+                                        <p>Subjects: {{course.lesson}}</p>
                                         <p>Location: {{course.location}}</p>
                                         <p>Price: £{{course.price}}</p>
                                         <p>Spaces: {{course.spaces}}</p>
@@ -86,8 +93,8 @@
                                         <img class="image" v-bind:src="course.image">
                                     </figure>
                                 </div>
-                                <button v-if="course.spaces > 0" v-on:click="addToCart(course)">Add To Cart</button>
-                                <button v-else disabled>Add To Cart</button>
+                                <button class="btnadd" v-if="course.spaces > 0" v-on:click="addToCart(course)">Add To Cart</button>
+                                <button class="btnoff" v-else disabled>Add To Cart</button>
                             </div>
                         </div>
 
@@ -104,15 +111,12 @@
                                 <label for="name">Name: </label>
                                 <input type="text" v-model.trim="userData.name">
                             </div>
-                            <div class="input_container">
-                                <label for="address">Address: </label>
-                                <input type="text" v-model.trim="userData.address">
-                            </div>
+
                             <div class="input_container">
                                 <label for="phone" pattern="[A-Za-z]">Phone: </label>
-                                <input type="text" v-model.trim="userData.phone">
+                                <input type="number" v-model.trim="userData.phone">
                             </div>
-                            <button v-if="canCheckout">Checkout</button>
+                            <button v-on:click="showAlert" v-if="canCheckout">Checkout</button>
                         </div>
                     </div>
                     <div id="courses_container" class="display-flex-col width-height">
@@ -120,7 +124,7 @@
                             <div class="course" v-for="course in cart">
                                 <div style="width: 100%; display: inline-flex; align-items: center;">
                                     <div class="info_container">
-                                        <p>course: {{course.lesson}}</p>
+                                        <p>Subject: {{course.lesson}}</p>
                                         <p>Location: {{course.location}}</p>
                                         <p>Price: £{{course.price}}</p>
                                     </div>
@@ -147,78 +151,13 @@
             order: "ascending",
             searchInput: "",
             showcourses: true,
-            x: [...courses],
             userData: {
                 name: "",
-                address:"",
                 phone: "",
             },
-            courses: [{
-
-                lesson: "Art",
-                location: 'sweden',
-                price: 450,
-                spaces: 5,
-                image: "img/art.jpg"
-            }, {
-                lesson: "Cooking",
-                location: 'Dubai',
-                price: 400,
-                spaces: 5,
-                image: "img/cooking.png"
-            }, {
-                lesson: "English",
-                location: 'Sweden ',
-                price: 300,
-                spaces: 5,
-                image: "img/english.jpg"
-            }, {
-                lesson: "Football",
-                location: 'London ',
-                price: 480,
-                spaces: 5,
-                image: "img/football.jpg"
-            }, {
-                lesson: "French",
-                location: 'Sweden ',
-                price: 380,
-                spaces: 5,
-                image: "img/french.jpg"
-            }, {
-                lesson: "German",
-                location: 'Dubai ',
-                price: 350,
-                spaces: 5,
-                image: "img/german.jpg"
-            }, {
-                lesson: "Math",
-                location: 'London ',
-                price: 300,
-                spaces: 5,
-                image: "img/math symbol.png"
-            }, {
-                lesson: "Swimming",
-                location: 'London',
-                price: 500,
-                spaces: 5,
-                image: "img/swimming.jpg"
-            }, {
-                lesson: "Tailoring",
-                location: 'America ',
-                price: 450,
-                spaces: 5,
-                image: "img/tailoring.jpg"
-
-            }, {
-                lesson: "Robotics",
-                location: 'America ',
-                price: 300,
-                spaces: 5,
-                image: "img/robot.png"
-
-            }, ],
-            course: this.course,
+            
             cart: [],
+            courses:courses,
 
         },
         methods: {
@@ -231,6 +170,9 @@
 
                     this.cart.splice(cart_item, 1)
 
+            },
+            showAlert(){
+                alert('Form Submittedd')
             },
             checkout() {
                 this.showcourses = this.showcourses ? false : true
@@ -256,25 +198,26 @@
                 const letters = /^[A-Za-z]+$/;
                 const numbers = /^[0-9]+$/;
                 let valid = true
+                
                 if (this.userData.name.match(letters) == null) {
-                    valid = false
-                }
-                if (this.userData.address.match(letters) == null) {
                     valid = false
                 }
                 if (this.userData.phone.match(numbers) == null) {
                     valid = false
                 }
-                if (valid) {
+                if (valid) 
+                {
                     return true
-                } else {
+                }
+                else 
+                {
                     return false
                 }
+                
             },
             filterItems() {
 
                 const exclude = ["all", "availability", "price"]
-                    // const exclude =   { lesson: "asfaf", location: 'asfsfg', price: "asfas", spaces: 8 }
                 if (!exclude.includes(this.sorting)) {
                     return this.courses.filter(x => x[this.sorting].toLowerCase().includes(this.searchInput.toLowerCase())).sort((a, b) => {
                         switch (this.order) {

@@ -58,7 +58,7 @@ header button {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    border: 1px solid #21214290;
+    border: 3px solid #032133;
     border-radius: 1rem;
 }
 
@@ -70,10 +70,14 @@ header button {
     width: 50%;
     align-self: center;
     padding: 0.75rem 0;
-    background-color: rgb(0, 179, 255);
+    background-color: #032133;
     border-radius: 0.5rem;
+    border: 1px solid white;
+    color: wheat;
 }
-
+.bgchange{
+    background-color: #032133;
+}
 .course figure {
     width: 120px;
 }
@@ -90,4 +94,7 @@ header button {
 #Checkout {
     width: 30%;
     align-items: center;
+}
+.btnadd{
+    background-color: brown ;
 }

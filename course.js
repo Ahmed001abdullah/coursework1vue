@@ -10,7 +10,7 @@ let courses = [{
     'location': 'Dubai',
     'price': 400,
     'spaces': 5,
-    'image': "img/cooking.png"
+    'image': "img/cookinng.png"
 }, {
     'lesson': "English",
     'location': 'Sweden ',
@@ -22,7 +22,7 @@ let courses = [{
     'location': 'London ',
     'price': 480,
     'spaces': 5,
-    'image': "img/football.jpg"
+    'image': "img/football.png"
 }, {
     'lesson': "French",
     'location': 'Sweden ',
@@ -61,4 +61,4 @@ let courses = [{
     'spaces': 5,
     'image': "img/robot.png"
 
-}, ],
+}, ]
